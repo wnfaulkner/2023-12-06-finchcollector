@@ -2,10 +2,7 @@
 
 from django.shortcuts import render
 
-finches = [
-  {'name': 'Charm', 'breed': 'Pine Siskin', 'description': 'Loves fresh mountain air. Hates cats.', 'age': 4},
-  {'name': 'Heinz', 'breed': 'Evening Grosbeak', 'description': 'Cannot sing but has a burry chirp!', 'age': 7}
-]
+from .models import Finch
 
 def home(request):
   return render(request, 'home.html')
@@ -14,4 +11,9 @@ def about(request):
   return render(request, 'about.html')
 
 def finches_index(request):
+  finches = Finch.objects.all()
   return render(request, 'finches/index.html', {'finches': finches})
+
+def finches_detail(request, finch_id):
+  finch = Finch.objects.get(id=finch_id)
+  return render(request, 'finches/detail.html', {'finch': finch})
