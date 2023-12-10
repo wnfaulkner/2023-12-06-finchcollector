@@ -44,6 +44,53 @@
     </table>
   </div>
 </div>
+<hr>
+<div class="row">
+  <div class="col s6">
+    <h3>{{ finch.name }}'s Cages</h3>
+    {% if finch.cages.count %}
+      {% for cage in finch.cages.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              A <span style="cage_type: {{ cage.cage_type }}">{{ cage.cage_type }}</span> {{ cage.name }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'disassoc_cage' finch.id cage.id %}" method="PATCH">
+              {% csrf_token %}
+              <button type="submit" class="btn">Remove</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>No Cages</h5>
+    {% endif %}
+  </div>
+  <div class="col s6">
+    <h3>Available Cages</h3>
+    {% if cages.count %}
+      {% for cage in cages.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              A <span style="cage_type: {{ cage.cage_type }}">{{ cage.cage_type }}</span> {{ cage.room }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'assoc_cage' finch.id cage.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn">Add</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>{{cat.room}} Already Has All Cages Available</h5>
+    {% endif %}
+  </div>
+</div>
 
 <script>
   const dateEl = document.getElementById('id_date');
